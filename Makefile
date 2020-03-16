@@ -1,5 +1,9 @@
-service := {{<service_name>}}
-docker-image := {{<docker_registry>}}/{{<service_name>}}:0.0.0
+service := pw-website-ui
+version := 0.0.0
+docker_org := pineappleworkshop
+gcloud_proj := pineappleworkshop
+cluster := pw
+docker-image := ${docker_org}/${service}:${version}
 root := $(abspath $(shell pwd))
 port := 7001
 
@@ -36,8 +40,8 @@ bootstrap-deploy:
 	gcloud container clusters get-credentials ${cluster} --zone us-central1-c --project ${gcloud_proj}
 	make docker-build
 	make docker-push
-	kubectl create -f k8s/service.yml
-	kubectl create -f k8s/deploy.yml
+	kubectl create -f deployments/k8s/service.yml
+	kubectl create -f deployments/k8s/deploy.yml
 
 deploy:
 	git add .
@@ -46,7 +50,7 @@ deploy:
 	gcloud container clusters get-credentials ${cluster} --zone us-central1-c --project ${gcloud_proj}
 	make docker-build
 	make docker-push
-	kubectl apply -f k8s/deploy.yml
+	kubectl apply -f deployments/k8s/deploy.yml
 
 purge:
 	go clean
