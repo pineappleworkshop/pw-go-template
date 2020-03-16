@@ -1,11 +1,11 @@
-service := pw-website-ui
+service := {{<service_name>}}
 version := 0.0.0
 docker_org := pineappleworkshop
 gcloud_proj := pineappleworkshop
 cluster := pw
 docker-image := ${docker_org}/${service}:${version}
 root := $(abspath $(shell pwd))
-port := 7001
+port := {{<port>}}
 
 list:
 	@grep '^[^#[:space:]].*:' Makefile | grep -v ':=' | grep -v '^\.' | sed 's/:.*//g' | sed 's/://g' | sort
