@@ -1,0 +1,91 @@
+version: 1
+type: project
+runners:
+  - name: main
+    dependencies:
+      - go
+      - kubectl
+      - gcloud
+vars:
+  - name: version
+    value: 0.0.0
+  - name: service_name
+    value: genee-test
+  - name: port
+    value: 7001
+  - name: docker_registry
+    value: pineappleworkshop
+  - name: db_name
+    value: genee
+  - name: commit_message
+    value: first commit
+  - name: branch
+    value:  
+commands:
+  - name: pull_deps
+    description: "initializing package manager"
+    type: bash
+    command: go mod init {{service_name}}
+    set: none
+  - name: fetch_deps
+    type: bash
+    command: go mod tidy
+    set: none
+  - name: initialize_git
+    type: bash
+    command: git init
+    set: none
+  - name: stage_files
+    type: bash
+    command: git add .
+    set: none
+  - name: commit
+    type: bash
+    command: git commit -m {{commit_message}}
+    set: none
+  - name: docker-build
+    type: bash
+    command: docker build -t {{pineappleworkshop}}/{{service_name}}:{{version}} .
+  - name: docker-run
+    type: bash
+    command: docker run -ipt {{port}}:{{port}} {{pineappleworkshop}}/{{service_name}}:{{version}} 
+  - name: docker-push
+    type: bash
+    command: docker push {{pineappleworkshop}}/{{service_name}}:{{version}}
+  - name: kube-service-aplly
+    command: kubectl apply -f deployments/k8s/deploy.yml
+targets:
+  - name: bootstrap
+    commands: 
+      - name: init_deps
+        pass: success
+      - name: fetch_deps
+        pass: success
+      - name: initialize_git
+        pass: success
+      - name: stage_files
+        pass: success
+      - name: commit
+        pass: success
+  - name: build-push-deploy
+    commands:
+      - name: 
+        pass: success
+pipelines:
+  - name: dev
+    branch: dev
+    targets:
+      - name: build-push-deploy
+        runner: main
+        pass: success
+        depends_on: none
+      
+
+deploy: 
+  - git add .
+  - git commit -m "first commit"
+  - make docker-build
+  - make docker-push
+  - kubectl apply -f deployments/k8s/deploy.yml
+  - kubectl apply -f deployments/k8s/service.yml
+  - make deploy
