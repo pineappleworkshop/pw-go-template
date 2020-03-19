@@ -22,6 +22,11 @@ func InitDbs() {
 		if err := DB.Mongo.Connect(); err != nil {
 			panic(err)
 		}
+	} else if config.Conf.Env == config.PROD {
+		DB = NewStores()
+		if err := DB.Mongo.Connect(); err != nil {
+			panic(err)
+		}
 	}
 }
 
