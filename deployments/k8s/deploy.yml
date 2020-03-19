@@ -15,7 +15,7 @@ spec:
         app: {{<service_name>}}
     spec:
       containers:
-        - name: dnp-locations-ingestor
+        - name: {{<service_name>}}
           image: {{<docker_registry>}}/{{<service_name>}}:0.0.0
           env:
             - name: ENV
