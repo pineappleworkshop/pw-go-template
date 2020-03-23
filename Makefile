@@ -36,6 +36,12 @@ docker-run:
 bumpversion-patch:
 	bumpversion patch --allow-dirty
 
+bumpversion-minor:
+	bumpversion minor --allow-dirty
+
+bumpversion-major:
+	bumpversion major --allow-dirty
+
 bootstrap-deploy:
 	gcloud container clusters get-credentials ${cluster} --zone us-central1-c --project ${gcloud_proj}
 	make docker-build
