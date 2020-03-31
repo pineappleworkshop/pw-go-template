@@ -1,8 +1,8 @@
 service := {{<service_name>}}
 version := 0.0.0
-docker_org := pineappleworkshop
-gcloud_proj := pineappleworkshop
-cluster := pw
+docker_org := {{<docker_registry>}}
+gcloud_proj := {{<project_id>}}
+cluster := {{<cluster_name>}}
 docker-image := ${docker_org}/${service}:${version}
 root := $(abspath $(shell pwd))
 port := {{<port>}}
