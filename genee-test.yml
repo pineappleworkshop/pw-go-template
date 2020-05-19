@@ -7,6 +7,8 @@ vars:
     value: pineappleworkshop
   - name: db_name
     value: wills
+  - name: mongo_rs
+    value: pw
   - name: project_id
     value: pineappleworkshop
   - name: cluster_name

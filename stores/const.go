@@ -7,8 +7,8 @@ const (
 var (
 	MONGOHOSTS_WORKSTATION = []string{"localhost:27017"}
 	MONGOHOSTS_CLUSTER     = []string{
-		"{{<db_name>}}-mongodb-replicaset-0",
-		"{{<db_name>}}-mongodb-replicaset-1",
-		"{{<db_name>}}-mongodb-replicaset-2",
+		"{{<mongo_rs>}}-mongodb-replicaset-0",
+		"{{<mongo_rs>}}-mongodb-replicaset-1",
+		"{{<mongo_rs>}}-mongodb-replicaset-2",
 	}
 )
