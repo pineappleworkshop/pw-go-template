@@ -58,6 +58,10 @@ deploy:
 	make docker-push
 	kubectl apply -f deployments/k8s/deploy.yml
 
+ci-deploy:
+	./google-cloud-sdk/bin/gcloud container clusters get-credentials ${cluster} --zone us-central1-c --project ${gcloud_proj}
+	./kubectl apply -f deployments/k8s/deploy.yml
+
 purge:
 	go clean
 	rm -rf $(root)/vendor

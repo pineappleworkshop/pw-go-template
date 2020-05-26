@@ -1,0 +1,27 @@
+# Golang CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-go/ for more details
+version: 2
+jobs:
+  build:
+    branches:
+      only:
+        - master
+    docker:
+      - image: docker:17.05.0-ce-git
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run: apk update
+      - run: apk upgrade
+      - run: apk add --virtual build-dependencies make bash curl python tar
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - run: make docker-build
+      - run: make docker-push
+      - run: curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-151.0.1-linux-x86_64.tar.gz
+      - run: tar xzf google-cloud-sdk-151.0.1-linux-x86_64.tar.gz
+      - run: curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.18.0/bin/linux/amd64/kubectl
+      - run: chmod +x ./kubectl
+      - run: echo $GCLOUD_SERVICE_KEY | base64 -d > ${HOME}/gcloud-service-key.json
+      - run: ./google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
+      - run: make ci-deploy
