@@ -5,7 +5,7 @@ vars:
     value: 7999
   - name: docker_registry
     value: pineappleworkshop
-  - name: db_name
+  - name: project_name
     value: wills
   - name: mongo_rs
     value: pw

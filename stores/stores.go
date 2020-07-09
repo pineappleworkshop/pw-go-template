@@ -7,26 +7,9 @@ import (
 var DB *Store
 
 func InitDbs() {
-	if config.Conf.Env == config.WORKSTATION {
-		DB = NewStores()
-		if err := DB.Mongo.Connect(); err != nil {
-			panic(err)
-		}
-	} else if config.Conf.Env == config.DEV {
-		DB = NewStores()
-		if err := DB.Mongo.Connect(); err != nil {
-			panic(err)
-		}
-	} else if config.Conf.Env == config.STAGE {
-		DB = NewStores()
-		if err := DB.Mongo.Connect(); err != nil {
-			panic(err)
-		}
-	} else if config.Conf.Env == config.PROD {
-		DB = NewStores()
-		if err := DB.Mongo.Connect(); err != nil {
-			panic(err)
-		}
+	DB = setupStores()
+	if err := DB.Mongo.Connect(); err != nil {
+		panic(err)
 	}
 }
 
@@ -34,14 +17,8 @@ type Store struct {
 	Mongo *Mongo
 }
 
-func NewStores() *Store {
-	if config.Conf.GetEnv() != config.WORKSTATION {
-		return &Store{
-			Mongo: NewMongo(MONGOHOSTS_CLUSTER),
-		}
-	}
-
+func setupStores() *Store {
 	return &Store{
-		Mongo: NewMongo(MONGOHOSTS_WORKSTATION),
+		Mongo: NewMongo(config.Conf.MongoRC),
 	}
 }
