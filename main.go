@@ -22,7 +22,7 @@ func main() {
 
 	initRoutes(e)
 
-	e.Logger.Fatal(e.Start(":" + strconv.Itoa(services.PORT)))
+	go e.Logger.Fatal(e.Start(":" + strconv.Itoa(services.PORT)))
 }
 
 func initRoutes(e *echo.Echo) {
