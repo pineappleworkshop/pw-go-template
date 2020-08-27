@@ -65,12 +65,24 @@ jobs:
           deployment: << parameters.deployment >>
           image: << parameters.image >>
           tag: << parameters.tag >>
+  # test:
+  #   description: Run integration tests after deployment is finished
+  #   docker:
+  #     - image: circleci/golang:latest
+  #   parameters:
+  #     environment:
+  #       description: |
+  #         The environment to test
+  #       type: string
+  #   steps:
+  #     - checkout
+  #     - run: make test-<< parameters.environment >>
 
 workflows:
   docker-build-push-deploy-dev:
     jobs:
       - build-and-push:
-          image: {{docker_registry}}/{{<service_name>}}
+          image: {{<docker_registry>}}/{{<service_name>}}
           # todo: this is a hack since circleCI does not pass env vars into workflows nor orbs
           # todo: the issue here is say this version is the same as the orbs, the orb version
           # todo: will bump too
@@ -87,10 +99,10 @@ workflows:
 #            tags:
 #              only: /^v.*/
       - deploy:
-          cluster: {{cluster_name}}-dev
+          cluster: {{<cluster_name>}}-dev
           container: {{<service_name>}}
           deployment: {{<service_name>}}
-          image: {{docker_registry}}/{{<service_name>}}
+          image: {{<docker_registry>}}/{{<service_name>}}
           # todo: this is a hack since circleCI does not pass env vars into workflows nor orbs
           # todo: the issue here is say this version is the same as the orbs, the orb version
           # todo: will bump too
@@ -108,26 +120,28 @@ workflows:
 #              only: /^v.*/
           requires:
             - build-and-push
-#      - test:
-#          environment: dev
-#          filters:
-#            branches:
-#              only:
-#                - dev
+      # - test:
+      #     environment: dev
+      #     filters:
+      #       branches:
+      #         only:
+      #           - dev
+      #     requires:
+      #       - deploy
   docker-build-push-deploy-prod:
     jobs:
 #      - build-and-push:
-#          image: {{docker_registry}}/{{<service_name>}}
+#          image: {{<docker_registry>}}/{{<service_name>}}
 #          tag: 0.0.0
 #          filters:
 #            branches:
 #              only:
 #                - prod
       - deploy:
-          cluster: {{cluster_name}}
+          cluster: {{<cluster_name>}}
           container: {{<service_name>}}
           deployment: {{<service_name>}}
-          image: {{docker_registry}}/{{<service_name>}}
+          image: {{<docker_registry>}}/{{<service_name>}}
           tag: 0.0.0
           filters:
             branches:
@@ -135,3 +149,11 @@ workflows:
                 - prod
 #          requires:
 #            - build-and-push
+      # - test:
+      #     environment: prod
+      #     filters:
+      #       branches:
+      #         only:
+      #           - prod
+      #     requires:
+      #       - deploy
