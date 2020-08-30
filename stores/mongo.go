@@ -1,39 +1,46 @@
 package stores
 
 import (
+	"context"
 	"time"
 
-	"github.com/globalsign/mgo"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type Mongo struct {
-	Name     string
-	Hosts    []string
-	Username string
-	Password string
-	//AuthDB     string
-	//ReplicaSet string
-	Session *mgo.Session
+	Hosts  []string `json:"hosts"`
+	Client *mongo.Client
 }
 
 func NewMongo(hosts []string) *Mongo {
 	return &Mongo{
-		Name:  DB_NAME,
 		Hosts: hosts,
-		//Password: password,
 	}
 }
 
 func (m *Mongo) Connect() error {
-	var err error
-	m.Session, err = mgo.DialWithInfo(&mgo.DialInfo{
-		Addrs:    m.Hosts,
-		Timeout:  60 * time.Second,
-		Username: m.Username,
-		Password: m.Password,
-		//Database:       m.AuthDB,
-		//ReplicaSetName: m.ReplicaSet,
+	ctx := context.TODO()
+	t := 30 * time.Second
+	tr := true
+
+	client, err := mongo.NewClient(&options.ClientOptions{
+		ConnectTimeout: &t,
+		Hosts:          m.Hosts,
+		Direct:         &tr,
 	})
+	if err != nil {
+		return err
+	}
+
+	err = client.Connect(context.TODO())
+	if err != nil {
+		return err
+	}
+
+	m.Client = client
+
+	err = m.Client.Ping(ctx, nil)
 	if err != nil {
 		return err
 	}
