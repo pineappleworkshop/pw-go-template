@@ -1,16 +1,14 @@
 package models
 
 import (
-
 	"time"
 	"context"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"{{<service_name>}}/stores"
-
 	"github.com/labstack/echo"
 )
 
-type Product struct {
+type Resource struct {
 	ID        primitive.ObjectID `json:"id" bson:"_id"`
 	Name     string `json:"name" bson:"name"`
 	Code 	 string `json:"code" bson:"code"`
@@ -19,9 +17,9 @@ type Product struct {
  
 }
 
-// product model constructor
-func NewProduct() (*Product, error) {
-	return &Product{
+// resource model constructor
+func NewResource() (*Resource, error) {
+	return &Resource{
 		ID:        primitive.NewObjectID(),
 		Name:      "test1",
 		Code: 	   "1234567",
@@ -30,10 +28,10 @@ func NewProduct() (*Product, error) {
 	}, nil
 }
 
-// save product example
-func (p *Product) Save(c echo.Context) error {
+// save resource example
+func (p *Resource) Save(c echo.Context) error {
 	client := stores.DB.Mongo.Client
-	collection := client.Database(stores.DB_NAME).Collection(stores.DB_COLLECTION_PRODUCTS)
+	collection := client.Database(stores.DB_NAME).Collection(stores.DB_COLLECTION_RESOURCE)
 	if _, err := collection.InsertOne(context.TODO(),p); err != nil {
 		return err
 	}
@@ -41,6 +39,6 @@ func (p *Product) Save(c echo.Context) error {
 	return nil
 }
 
-type newProductResponse struct {
-	Product        Product `json:"product"`
+type newResourceResponse struct {
+	Resource        Resource `json:"resource"`
 }

@@ -9,17 +9,12 @@ import (
 	"net/http"
 )
 
-// This struct can be used as the expected param for the
-// Request function (WU 2020-08-13)
-// type RequestParams struct {
-// 	BaseUrl string
-// 	Method  string
-// 	Body    interface{}
-// 	URIs    string
-// 	Headers map[string]string
-// }
-
-func Request(baseUrl, method string, inputBody io.Reader, headers map[string]string, uris ...string) (*http.Response, map[string]interface{}, error) {
+func Request(
+	baseUrl, 
+	method string, 
+	inputBody io.Reader, 
+	headers map[string]string,
+	uris ...string) (*http.Response, map[string]interface{}, error) {
 
 	url := baseUrl
 	for _, uri := range uris {
@@ -40,6 +35,9 @@ func Request(baseUrl, method string, inputBody io.Reader, headers map[string]str
 	}
 
 	res, err := client.Do(req)
+	if err != nil {
+		return nil, nil, err
+	}
 
 	defer res.Body.Close()
 	respBody, err := ioutil.ReadAll(res.Body)

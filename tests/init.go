@@ -1,7 +1,5 @@
 package test
-
 import (
-
 	"errors"
 	"flag"
 	"testing"

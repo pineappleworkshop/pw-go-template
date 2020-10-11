@@ -15,8 +15,8 @@ vars:
     value: pineappleworkshop
   - name: cluster_name
     value: pw
-  - name: products_collection
-    value: products
+  - name: resources_collection
+    value: resources
 commands:
   - go mod init {{<service_name>}}
   - go mod tidy

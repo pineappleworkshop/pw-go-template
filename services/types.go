@@ -1,7 +1,9 @@
 package services
 
-import "{{<service_name>}}/models"
+import (
+    "{{<service_name>}}/models"
+)
 
-type newProductResponse struct {
-	Product        models.Product `json:"product"`
+type newResourceResponse struct {
+	Resource       models.Resource `json:"resource"`
 }

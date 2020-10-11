@@ -2,39 +2,29 @@ package services
 
 import (
 	"net/http"
-
 	"{{<service_name>}}/models"
-
 	"github.com/labstack/echo"
 )
 
-
-func ProductHandler(c echo.Context) error {
-
-
-	product, err := models.NewProduct()
+func ResourceHandler(c echo.Context) error {
+	resource, err := models.NewResource()
 	if err != nil {
 		c.Logger().Error(err)
 		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
-	if err := c.Bind(product); err != nil {
+	if err := c.Bind(resource); err != nil {
 		c.Logger().Error(err)
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-
-	// todo: check for role and allow user creation of certain roles
-	if err := product.Save(c); err != nil {
+	if err := resource.Save(c); err != nil {
 		c.Logger().Error(err)
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
-
-
-	// todo: change
-	response := newProductResponse{
-		Product:        *product,
+	response := newResourceResponse{
+		Resource:        *resource,
 	}
 
 	return c.JSON(http.StatusOK, response)
