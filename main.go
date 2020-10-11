@@ -27,4 +27,5 @@ func main() {
 
 func initRoutes(e *echo.Echo) {
 	e.GET("/health", services.HealthHandler)
+	e.POST("/product", services.ProductHandler)
 }

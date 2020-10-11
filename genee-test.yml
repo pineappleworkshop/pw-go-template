@@ -1,18 +1,22 @@
 vars:
   - name: service_name
-    value: wills-test
+    value: test-services
+  - name: project_name
+    value: pw
   - name: port
-    value: 7999
+    value: 6999
   - name: docker_registry
     value: pineappleworkshop
-  - name: project_name
-    value: wills
+  - name: db_name
+    value: genee
   - name: mongo_rs
     value: pw
   - name: project_id
     value: pineappleworkshop
   - name: cluster_name
     value: pw
+  - name: products_collection
+    value: products
 commands:
   - go mod init {{<service_name>}}
   - go mod tidy

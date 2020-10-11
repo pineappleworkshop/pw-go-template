@@ -21,14 +21,14 @@ dev:
 	go run main.go
 
 docker-build:
-	docker build -t $(docker-image) .
+	sudo docker build -t $(docker-image) .
 
 docker-dev:
-	make docker-build
-	make docker-run
+	sudo make docker-build
+	sudo make docker-run
 
 docker-push:
-	docker push $(docker-image)
+	sudo docker push $(docker-image)
 
 docker-run:
 	@docker run -itp $(port):$(port)  $(docker-image)
@@ -54,8 +54,8 @@ deploy:
 	git commit -m "${version}"
 	git push origin master
 	gcloud container clusters get-credentials ${cluster} --zone us-central1-c --project ${gcloud_proj}
-	make docker-build
-	make docker-push
+	sudo make docker-build
+	sudo make docker-push
 	kubectl apply -f deployments/k8s/deploy.yml
 
 ci-deploy:
@@ -65,3 +65,6 @@ ci-deploy:
 purge:
 	go clean
 	rm -rf $(root)/vendor
+
+test-workstation:
+	go test ./... --env=workstation -v 3
