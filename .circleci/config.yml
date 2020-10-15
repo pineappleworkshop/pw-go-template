@@ -82,7 +82,7 @@ workflows:
   docker-build-push-deploy-dev:
     jobs:
       - build-and-push:
-          image: {{<docker_registry>}}/{{<service_name>}}
+          image: {{.docker_registry}}/{{.service_name}}
           # todo: this is a hack since circleCI does not pass env vars into workflows nor orbs
           # todo: the issue here is say this version is the same as the orbs, the orb version
           # todo: will bump too
@@ -99,10 +99,10 @@ workflows:
 #            tags:
 #              only: /^v.*/
       - deploy:
-          cluster: {{<cluster_name>}}-dev
-          container: {{<service_name>}}
-          deployment: {{<service_name>}}
-          image: {{<docker_registry>}}/{{<service_name>}}
+          cluster: {{.cluster_name}}-dev
+          container: {{.service_name}}
+          deployment: {{.service_name}}
+          image: {{.docker_registry}}/{{.service_name}}
           # todo: this is a hack since circleCI does not pass env vars into workflows nor orbs
           # todo: the issue here is say this version is the same as the orbs, the orb version
           # todo: will bump too
@@ -131,17 +131,17 @@ workflows:
   docker-build-push-deploy-prod:
     jobs:
 #      - build-and-push:
-#          image: {{<docker_registry>}}/{{<service_name>}}
+#          image: {{.docker_registry}}/{{.service_name}}
 #          tag: 0.0.0
 #          filters:
 #            branches:
 #              only:
 #                - prod
       - deploy:
-          cluster: {{<cluster_name>}}
-          container: {{<service_name>}}
-          deployment: {{<service_name>}}
-          image: {{<docker_registry>}}/{{<service_name>}}
+          cluster: {{.cluster_name}}
+          container: {{.service_name}}
+          deployment: {{.service_name}}
+          image: {{.docker_registry}}/{{.service_name}}
           tag: 0.0.0
           filters:
             branches:

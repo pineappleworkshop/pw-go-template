@@ -14,7 +14,7 @@ vars:
   - name: cluster_name
     value: pw
 commands:
-  - go mod init {{<service_name>}}
+  - go mod init {{.service_name}}
   - go mod tidy
   - rm -rf .git
   - git init

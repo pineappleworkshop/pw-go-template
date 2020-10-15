@@ -3,8 +3,8 @@ package services
 import (
 	"net/http"
 
-	"{{<service_name>}}/config"
-	"{{<service_name>}}/models"
+	"{{.service_name}}/config"
+	"{{.service_name}}/models"
 
 	"github.com/labstack/echo"
 )
