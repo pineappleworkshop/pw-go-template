@@ -1,22 +1,22 @@
 apiVersion: apps/v1beta2 # before 1.9
 kind: Deployment
 metadata:
-  name: {{<service_name>}}
+  name: {{.service_name}}
 spec:
   selector:
     matchLabels:
-      app: {{<service_name>}}
+      app: {{.service_name}}
   replicas: 1
   strategy:
     type: RollingUpdate
   template:
     metadata:
       labels:
-        app: {{<service_name>}}
+        app: {{.service_name}}
     spec:
       containers:
-        - name: {{<service_name>}}
-          image: pineappleworkshop/{{<service_name>}}:0.0.0
+        - name: {{.service_name}}
+          image: pineappleworkshop/{{.service_name}}:0.0.0
           env:
             - name: ENV
               value: "dev"

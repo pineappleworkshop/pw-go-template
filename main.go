@@ -3,9 +3,9 @@ package main
 import (
 	"strconv"
 
-	"{{<service_name>}}/config"
-	"{{<service_name>}}/services"
-	"{{<service_name>}}/stores"
+	"{{.service_name}}/config"
+	"{{.service_name}}/services"
+	"{{.service_name}}/stores"
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
