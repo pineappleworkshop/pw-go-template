@@ -1,13 +1,20 @@
 vars:
-  service_name: my-service-2
-  port: 7999
-  docker_registry: pineappleworkshop
-  project_name: my-service-2
-  mongo_rs: pw
-  project_id: pineappleworkshop
-  cluster_name: pw
+  - name: service_name
+    value: wills-test
+  - name: port
+    value: 7999
+  - name: docker_registry
+    value: pineappleworkshop
+  - name: project_name
+    value: wills
+  - name: mongo_rs
+    value: pw
+  - name: project_id
+    value: pineappleworkshop
+  - name: cluster_name
+    value: pw
 commands:
-  - go mod init {{.service_name}}
+  - go mod init {{<service_name>}}
   - go mod tidy
   - rm -rf .git
   - git init
