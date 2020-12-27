@@ -1,7 +1,7 @@
 package stores
 
 import (
-	"{{.service_name}}/config"
+	"{{<service_name>}}/config"
 )
 
 var DB *Store

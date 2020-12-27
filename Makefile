@@ -1,11 +1,11 @@
-service := {{.service_name}}
+service := {{<service_name>}}
 version := 0.0.0
-docker_org := {{.docker_registry}}
-gcloud_proj := {{.project_id}}
-cluster := {{.cluster_name}}
+docker_org := {{<docker_registry>}}
+gcloud_proj := {{<project_id>}}
+cluster := {{<cluster_name>}}
 docker-image := ${docker_org}/${service}:${version}
 root := $(abspath $(shell pwd))
-port := {{.port}}
+port := {{<port>}}
 
 list:
 	@grep '^[^#[:space:]].*:' Makefile | grep -v ':=' | grep -v '^\.' | sed 's/:.*//g' | sed 's/://g' | sort
