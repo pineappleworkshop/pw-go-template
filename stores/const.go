@@ -1,5 +1,6 @@
 package stores
 
 const (
-	DB_NAME = "{{<project_name>}}"
+	DB_NAME = "{{<db_name>}}"
+	DB_COLLECTION_RESOURCE = "{{<resources_collection>}}"
 )

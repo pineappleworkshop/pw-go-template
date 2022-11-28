@@ -65,3 +65,6 @@ ci-deploy:
 purge:
 	go clean
 	rm -rf $(root)/vendor
+
+test-workstation:
+	go test ./... --env=workstation -v 3
